@@ -25,16 +25,18 @@
 
 ;; Highlighting current line
 (global-hl-line-mode 1)
-(set-face-background 'hl-line "#efefef")
+;;(set-face-background 'hl-line "#efefef")
+
+;; Setting the color scheme
+(load-theme 'espresso t)
+;;(load-theme 'solarized-dark t)
 
 ;; GUI specific settings
 (when (window-system)
-  ;; Setting the color scheme
-  (load-theme 'espresso t)
   (set-face-italic-p 'italic nil)
 
   ;; Disabling the fringe
-  (set-fringe-mode '(0 . 0))
+  ;(set-fringe-mode '(0 . 0))
 
   ;; Disable the scrollbar
   (scroll-bar-mode -1)
@@ -44,14 +46,20 @@
   ;; Disable the toolbar
   (tool-bar-mode -1))
 
+;; Disabling bold fonts
+(set-face-bold-p 'bold nil)
+
 ;; Disable the menubar
 (menu-bar-mode -1)
 
-;; Setting up Marmalade
+;; Setting up Marmalade and gny and melpa
 (require 'package)
-(add-to-list 'package-archives 
-	     '("marmalade" .
-	       "http://marmalade-repo.org/packages/"))
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+;(add-to-list 'package-archives 
+;	     '("marmalade" .
+;	       "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
 ;; Width and Height
@@ -146,4 +154,30 @@
 (prefer-coding-system 'utf-8-unix)
 (set-default default-buffer-file-coding-system 'utf-8-unix)
 
+
+;; Flycheck for all buffers
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; Markdown mode
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+;(setq tabbar-ruler-global-tabbar 't) ; If you want tabbar
+;;(setq tabbar-ruler-global-ruler 't) ; if you want a global ruler
+;;(setq tabbar-ruler-popup-menu 't) ; If you want a popup menu.
+;;(setq tabbar-ruler-popup-toolbar 't) ; If you want a popup toolbar
+;(require 'tabbar-ruler)
+
+;; Set such that emacs does not use the ugly word-wrapping
+(global-visual-line-mode 1)
+
+
+;; Keybinding to start the shell
+(global-set-key (kbd "C-z") 'shell)
+;; Settings keybindings for Scroll line by line.
+(global-set-key (kbd "C-M-y") 'scroll-up-line)
+(global-set-key (kbd "C-M-g") 'scroll-down-line)
 
