@@ -18,5 +18,6 @@
   '(font-lock-warning-face ((t (:foreground "red" :bold t))))
   '(font-lock-type-face ((t (:foreground "#FCB666"))))
   '(fringe ((t (:foreground "#ffffff" :background "#1B2630"))))
+  '(highlight ((t (:background "#33414D"))))
 )
 (provide-theme 'oceanic)

@@ -12,7 +12,7 @@
 (column-number-mode 1)
 
 ;; Offset the number by two spaces to work around some weird fringe 
-(setq linum-format "%3d ")
+(setq linum-format " %3d ")
 
 ;; I hate tabs!
 (setq-default indent-tabs-mode nil)
@@ -27,7 +27,7 @@
           c-basic-offset 4)
 
 ;; Highlighting current line
-;;(global-hl-line-mode 1)
+(global-hl-line-mode 1)
 ;;(set-face-background 'hl-line "#efefef")
 
 ;; Setting the color scheme
@@ -72,7 +72,7 @@
 
 ;; Width and Height
 (add-to-list 'default-frame-alist '(height . 49))
-(add-to-list 'default-frame-alist '(width . 102)) 
+(add-to-list 'default-frame-alist '(width . 99)) 
 
 
 ;; On enter new line and indent
@@ -132,14 +132,6 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-;; Function to enable fullscreen 
-;(defun toggle-fullscreen ()
-;  "Toggle full screen"
-;  (interactive)
-;  (set-frame-parameter
-;     nil 'fullscreen
-;     (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
-
 ; Settings for enforcing to use UNIX endlines
 (set-default-coding-systems 'utf-8-unix)
 (prefer-coding-system 'utf-8-unix)
@@ -156,11 +148,6 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-;(setq tabbar-ruler-global-tabbar 't) ; If you want tabbar
-;;(setq tabbar-ruler-global-ruler 't) ; if you want a global ruler
-;;(setq tabbar-ruler-popup-menu 't) ; If you want a popup menu.
-;;(setq tabbar-ruler-popup-toolbar 't) ; If you want a popup toolbar
-;(require 'tabbar-ruler)
 
 ;; Set such that emacs does not use the ugly word-wrapping
 (global-visual-line-mode 1)
@@ -173,11 +160,12 @@
 (global-set-key (kbd "C-M-g") 'scroll-down-line)
 
 
-;; Speedbar
-;;(when window-system
-  ;;(speedbar t))
-;; (defconst my-speedbar-buffer-name "SPEEDBAR")
-(global-set-key (kbd "C-M-f") 'speedbar-get-focus)
+;; Open terminal in the current directory
+(defun open-terminal ()
+  (shell-command
+   (open (concat "-n -a /Applications/iTerm.app --args " default-directory))))
+
+(global-set-key (kbd "C-M-d") 'open-terminal)
 
 ;; CTags settings
 (setq path-to-ctags "/usr/local/bin/etags")
@@ -195,17 +183,32 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"] t)
+ '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
  '(custom-safe-themes (quote ("3b9470f0a19817fd7a6f737a745a52faf66bc648af90bd6ef1a55e62ee2e0e33" "2fc5680862f16d65dce33536d89ef96dc820c20cfc929d1cdcc2d2eabfff8abf" "40310b1ea4b1d8d6b29624dab09a814dc5ffe61da805e54f839403ee8426748a" "ed3944f5b5174942ed528e28bec8022ec3e1f4b99ede73ceec6a75e69e87a89c" default)))
- '(speedbar-frame-parameters (quote ((minibuffer) (width . 30) (border-width . 0) (menu-bar-lines . 0) (tool-bar-lines . 0) (unsplittable . t) (left-fringe . 0))))
+ '(ecb-options-version "2.40")
+ '(ruler-mode-current-column-char 42)
+ '(ruler-mode-fill-column-char 124)
+ '(speedbar-directory-button-trim-method (quote trim))
+ '(speedbar-frame-parameters (quote ((minibuffer) (width . 40) (border-width . 0) (menu-bar-lines . 0) (tool-bar-lines . 0) (unsplittable . t) (left-fringe . 0))))
  '(speedbar-hide-button-brackets-flag t)
  '(speedbar-use-images nil)
- '(sr-speedbar-max-width 80))
+ '(sr-speedbar-right-side nil))
+
+(setq gdb-many-windows t)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(ruler-mode-column-number ((t (:inherit ruler-mode-default :foreground "dark gray"))))
+ '(ruler-mode-comment-column ((t (:inherit ruler-mode-default :foreground "dark gray"))))
+ '(ruler-mode-current-column ((t (:inherit ruler-mode-default :foreground "Red" :weight bold))))
+ '(ruler-mode-default ((t (:inherit default :foreground "grey64"))))
+ '(speedbar-tag-face ((t (:foreground "gray80")))))
 
-(setq gdb-many-windows t)
+;; My Shortcuts
+(global-set-key (kbd "C-M-f") 'speedbar-get-focus)
+
+;; Shortcut for compiling
+(global-set-key [(f9)] 'compile)
