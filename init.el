@@ -28,23 +28,19 @@
 
 ;; Highlighting current line
 (global-hl-line-mode 1)
-;;(set-face-background 'hl-line "#efefef")
 
-;; Setting the color scheme
-;;(load-theme 'espresso t)
-;;(load-theme 'wombat t)
-;;(load-theme 'tangofringe t)
-;;(load-theme 'misterioso t)
-(load-theme 'oceanic t)
-
-;;(require 'color-theme-hickey)
-
-;; Disable the menubar
-;;(menu-bar-mode -1)
+;; Disable the menubar for terminal
+(menu-bar-mode -1)
 
 ;; GUI specific settings
 (when (window-system)
+  ;; Setting the color scheme.
+  (load-theme 'oceanic t)
+
   (set-face-italic-p 'italic nil)
+
+  ;; Disable the menubar
+  (menu-bar-mode 1)
 
   ;; Disabling the fringe
   ;;(set-fringe-mode '(0 . 0))
@@ -53,7 +49,8 @@
   (scroll-bar-mode -1)
   
   ;; Setting the default font
-  (set-face-attribute 'default nil :font "Meslo LG L-12")
+  (set-face-attribute 'default nil :font "Meslo LG S-12")
+
   ;; Disable the toolbar
   (tool-bar-mode -1))
 
@@ -65,9 +62,6 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
-;(add-to-list 'package-archives 
-;	     '("marmalade" .
-;	       "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
 ;; Width and Height
@@ -82,8 +76,8 @@
 
 
 ;; SLIME settings
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
+;(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;(setq inferior-lisp-program "/usr/local/bin/sbcl")
 
 ;; Python settings 
 ;(autoload 'python-mode "python-mode" "Python Mode." t)
@@ -94,16 +88,16 @@
 (electric-indent-mode +1)
 
 ;; Python Rope
-(require 'pymacs)
-(pymacs-load "ropemacs" "rope-")
-(setq ropemacs-enable-shortcuts nil)
-(setq ropemacs-local-prefix "C-c C-p")
+;(require 'pymacs)
+;(pymacs-load "ropemacs" "rope-")
+;(setq ropemacs-enable-shortcuts nil)
+;(setq ropemacs-local-prefix "C-c C-p")
 
 ;; Multi-Term settings
-(require 'multi-term)
-(setq multi-term-program "/bin/zsh")
+;(require 'multi-term)
+;(setq multi-term-program "/bin/zsh")
 ;; Without this the prompt would have weird characters like 4m
-(setenv "TERMINFO" "~/.terminfo")
+;(setenv "TERMINFO" "~/.terminfo")
 
 ;; Disable the gaudy colors in shell
 (setq ansi-color-names-vector		; better contrast colors
@@ -119,10 +113,6 @@
               vc-ignore-dir-regexp
               tramp-file-name-regexp))
 
-;; Javascript mode
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-
 (require 'git)
 
 ;; IDO mode.
@@ -137,24 +127,12 @@
 (prefer-coding-system 'utf-8-unix)
 (set-default default-buffer-file-coding-system 'utf-8-unix)
 
-
-;; Flycheck for all buffers
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; Markdown mode
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
-
 ;; Set such that emacs does not use the ugly word-wrapping
 (global-visual-line-mode 1)
 
-
 ;; Keybinding to start the shell
 (global-set-key (kbd "C-z") 'shell)
+
 ;; Settings keybindings for Scroll line by line.
 (global-set-key (kbd "C-M-y") 'scroll-up-line)
 (global-set-key (kbd "C-M-g") 'scroll-down-line)
@@ -177,7 +155,7 @@
     )
 
 ;; cscope for emacs.
-(require 'ascope)
+;(require 'ascope)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
