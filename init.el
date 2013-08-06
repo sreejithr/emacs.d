@@ -12,7 +12,10 @@
 (column-number-mode 1)
 
 ;; Offset the number by two spaces to work around some weird fringe 
-(setq linum-format " %3d ")
+(setq linum-format "%3d ")
+
+;; Disable splash screen
+(setq inhibit-startup-message t)
 
 ;; I hate tabs!
 (setq-default indent-tabs-mode nil)
@@ -32,15 +35,14 @@
 ;; Disable the menubar for terminal
 (menu-bar-mode -1)
 
+(load-theme 'tango t)
+
 ;; GUI specific settings
 (when (window-system)
   ;; Setting the color scheme.
   (load-theme 'oceanic t)
 
   (set-face-italic-p 'italic nil)
-
-  ;; Disable the menubar
-  (menu-bar-mode 1)
 
   ;; Disabling the fringe
   ;;(set-fringe-mode '(0 . 0))
@@ -49,8 +51,8 @@
   (scroll-bar-mode -1)
   
   ;; Setting the default font
-  (set-face-attribute 'default nil :font "Meslo LG S-12")
-
+  ;;(set-face-attribute 'default nil :font "Meslo LG S-12")
+  (set-face-attribute 'default nil :font "Liberation Mono 10")
   ;; Disable the toolbar
   (tool-bar-mode -1))
 
@@ -65,8 +67,8 @@
 (package-initialize)
 
 ;; Width and Height
-(add-to-list 'default-frame-alist '(height . 49))
-(add-to-list 'default-frame-alist '(width . 99)) 
+;;(add-to-list 'default-frame-alist '(height . 49))
+;;(add-to-list 'default-frame-alist '(width . 99)) 
 
 
 ;; On enter new line and indent
