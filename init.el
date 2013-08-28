@@ -35,12 +35,12 @@
 ;; Disable the menubar for terminal
 (menu-bar-mode -1)
 
-(load-theme 'tango t)
+(load-theme 'tangofringe t)
 
 ;; GUI specific settings
 (when (window-system)
   ;; Setting the color scheme.
-  (load-theme 'oceanic t)
+  ;; (load-theme 'oceanic t)
 
   (set-face-italic-p 'italic nil)
 
@@ -51,8 +51,8 @@
   (scroll-bar-mode -1)
   
   ;; Setting the default font
-  ;;(set-face-attribute 'default nil :font "Meslo LG S-12")
-  (set-face-attribute 'default nil :font "Liberation Mono 10")
+  (set-face-attribute 'default nil :font "Meslo LG M 9")
+  ;;(set-face-attribute 'default nil :font "Liberation Mono 9")
   ;; Disable the toolbar
   (tool-bar-mode -1))
 
@@ -67,8 +67,8 @@
 (package-initialize)
 
 ;; Width and Height
-;;(add-to-list 'default-frame-alist '(height . 49))
-;;(add-to-list 'default-frame-alist '(width . 99)) 
+(add-to-list 'default-frame-alist '(height . 55))
+(add-to-list 'default-frame-alist '(width . 96)) 
 
 
 ;; On enter new line and indent
@@ -82,18 +82,27 @@
 ;(setq inferior-lisp-program "/usr/local/bin/sbcl")
 
 ;; Python settings 
-;(autoload 'python-mode "python-mode" "Python Mode." t)
-;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(autoload 'python-mode "python-mode" "Python Mode." t)
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+;; use IPython
+(setq-default py-shell-name "ipython")
+(setq-default py-which-bufname "IPython")
 
-; Automatically indent code after RET
+;; switch to the interpreter after executing code
+(setq py-shell-switch-buffers-on-execute-p t)
+(setq py-switch-buffers-on-execute-p t)
+;; try to automagically figure out indentation
+(setq py-smart-indentation t)
+
+;; Automatically indent code after RET
 (electric-indent-mode +1)
 
 ;; Python Rope
-;(require 'pymacs)
-;(pymacs-load "ropemacs" "rope-")
-;(setq ropemacs-enable-shortcuts nil)
-;(setq ropemacs-local-prefix "C-c C-p")
+;;(require 'pymacs)
+;;(pymacs-load "ropemacs" "rope-")
+;;(setq ropemacs-enable-shortcuts nil)
+;;(setq ropemacs-local-prefix "C-c C-p")
 
 ;; Multi-Term settings
 ;(require 'multi-term)
@@ -114,6 +123,8 @@
       (format "\\(%s\\)\\|\\(%s\\)"
               vc-ignore-dir-regexp
               tramp-file-name-regexp))
+
+(setq recentf-auto-cleanup 'never) 
 
 (require 'git)
 
@@ -192,3 +203,16 @@
 
 ;; Shortcut for compiling
 (global-set-key [(f9)] 'compile)
+
+;; Javascript mode
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
+(require 'fill-column-indicator)
+(setq-default fci-rule-column 80)
+
+;; AutoComplete settings
+;; (require 'auto-complete)
+;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+;; (require 'auto-complete-config)
+;; (ac-config-default)
+;; (global-auto-complete-mode t)
