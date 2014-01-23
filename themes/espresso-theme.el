@@ -45,7 +45,7 @@ Port of the default theme for Espresso on Mac OS X.")
 
    ;; Frame
    '(fringe ((t (:background "#ffffff"))))
-   '(linum ((t (:background "#ffffff"))))
+   '(linum ((t (:background "#ffffff" :height 70))))
    `(mode-line ((t (:background "#333333" :foreground "white"
                     :box nil))))
    '(mode-line-highlight ((t (:box nil))))
