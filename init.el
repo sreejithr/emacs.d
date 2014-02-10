@@ -15,7 +15,7 @@
 (setq linum-format " %3d ")
 
 ;; Disable splash screen
-(setq inhibit-startup-message t)
+;;(setq inhibit-startup-message t)
 
 ;; I hate tabs!
 (setq-default indent-tabs-mode nil)
@@ -105,6 +105,7 @@
 
 ;; Automatically indent code after RET
 (electric-indent-mode +1)
+
 ;; Have those awesome matching pairs
 (electric-pair-mode t)
 
