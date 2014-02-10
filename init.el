@@ -1,3 +1,6 @@
+;; For backword word delete
+(global-set-key (kbd "C-M-h") 'backward-kill-word)
+
 ;; Setting the default load-directory
 (let ((default-directory "~/.emacs.d/"))
       (normal-top-level-add-subdirs-to-load-path))
