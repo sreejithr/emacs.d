@@ -18,7 +18,7 @@
 (setq linum-format " %3d ")
 
 ;; Disable splash screen
-;;(setq inhibit-startup-message t)
+(setq inhibit-startup-message t)
 
 ;; I hate tabs!
 (setq-default indent-tabs-mode nil)
@@ -60,7 +60,9 @@
     (scroll-bar-mode -1)
 
     ;; Setting the default font
-    (set-default-font "Meslo LG M-9")
+    (set-default-font "Menlo-12")
+    ;;(add-to-list 'default-frame-alist '(font . "Source Code Pro-14"))
+    ;;(set-face-attribute 'default nil :height 150)
     ;;(set-face-attribute 'default nil :font "Liberation Mono 9")
 
     ;; Disable the toolbar
@@ -78,8 +80,8 @@
 (package-initialize)
 
 ;; Width and Height
-(add-to-list 'default-frame-alist '(height . 53))
-(add-to-list 'default-frame-alist '(width . 99)) 
+;;(add-to-list 'default-frame-alist '(height . 53))
+;;(add-to-list 'default-frame-alist '(width . 99)) 
 
 
 ;; On enter new line and indent
@@ -215,9 +217,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"] t)
- '(custom-enabled-themes (quote (solarized-light)))
- '(custom-safe-themes (quote ("525ce9f401456c02eedc8cfb39dad28ffccfd17b1e25d83cd8f0748d76225c14" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "d6e98500f46f207c1e14a6facc7d55c1ed463a221415768c086310514ddbeed7" "6229b49d2311e403f24383a69bd4d249b3d92eb64e38a62b735824d57444232b" "c1fb68aa00235766461c7e31ecfc759aa2dd905899ae6d95097061faeb72f9ee" "5339210234ec915d7d3fd87bfeb506bfc436ff7277a55516ab1781ec85c57224" "9c18f9e7e62aa3572044943a89fc477c1094e699502d9bb8b8c7231c556e8d63" "3b9470f0a19817fd7a6f737a745a52faf66bc648af90bd6ef1a55e62ee2e0e33" "2fc5680862f16d65dce33536d89ef96dc820c20cfc929d1cdcc2d2eabfff8abf" "40310b1ea4b1d8d6b29624dab09a814dc5ffe61da805e54f839403ee8426748a" "ed3944f5b5174942ed528e28bec8022ec3e1f4b99ede73ceec6a75e69e87a89c" default)))
+ '(background-color "#042028")
+ '(background-mode dark)
+ '(cursor-color "#708183")
+;; '(custom-enabled-themes (quote (oceanic)))
+ '(custom-safe-themes (quote ("805ae49b96802cef0cbf96218a80eae720d9abab838bc7a853d8d50f5ff83197" "525ce9f401456c02eedc8cfb39dad28ffccfd17b1e25d83cd8f0748d76225c14" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "d6e98500f46f207c1e14a6facc7d55c1ed463a221415768c086310514ddbeed7" "6229b49d2311e403f24383a69bd4d249b3d92eb64e38a62b735824d57444232b" "c1fb68aa00235766461c7e31ecfc759aa2dd905899ae6d95097061faeb72f9ee" "5339210234ec915d7d3fd87bfeb506bfc436ff7277a55516ab1781ec85c57224" "9c18f9e7e62aa3572044943a89fc477c1094e699502d9bb8b8c7231c556e8d63" "3b9470f0a19817fd7a6f737a745a52faf66bc648af90bd6ef1a55e62ee2e0e33" "2fc5680862f16d65dce33536d89ef96dc820c20cfc929d1cdcc2d2eabfff8abf" "40310b1ea4b1d8d6b29624dab09a814dc5ffe61da805e54f839403ee8426748a" "ed3944f5b5174942ed528e28bec8022ec3e1f4b99ede73ceec6a75e69e87a89c" default)))
  '(ecb-options-version "2.40")
+ '(foreground-color "#708183")
  '(ruler-mode-current-column-char 42)
  '(ruler-mode-fill-column-char 124)
  '(speedbar-directory-button-trim-method (quote trim))
@@ -303,10 +309,4 @@
 
 (global-set-key [f11] 'fullscreen)
 
-;; 80 Column Line
-(add-to-list 'load-path "~/.emacs.d/fill-column-indicator-1.83")
-(require 'fill-column-indicator)
-(define-globalized-minor-mode
-  global-fci-mode fci-mode (lambda () (fci-mode 1)))
-(global-fci-mode t)
 
