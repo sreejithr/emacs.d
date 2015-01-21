@@ -28,9 +28,9 @@
              (setq c-basic-indent 4)
              (setq tab-width 4)))
 
-;; Set C style to k&r
-(setq c-default-style "k&r"
-          c-basic-offset 4)
+;; Set C style to linux
+(setq c-default-style "linux"
+          c-basic-offset 8)
 
 ;; Set the cursor to a bar
 (setq default-cursor-type 'bar)
@@ -45,9 +45,6 @@
 (defun disable-crappy-frames (&optional frame)
   "Disables scrollbars, toolbars and fringe while in graphical mode."
   (when (or window-system frame)
-    ;; Setting the color scheme.
-    ;; (load-theme 'oceanic t)
-
     ;; Highlighting current line
     (global-hl-line-mode 1)
 
@@ -60,7 +57,7 @@
     (scroll-bar-mode -1)
 
     ;; Setting the default font
-    (set-default-font "Menlo-12")
+    (set-default-font "Liberation Mono 12")
     ;;(add-to-list 'default-frame-alist '(font . "Source Code Pro-14"))
     ;;(set-face-attribute 'default nil :height 150)
     ;;(set-face-attribute 'default nil :font "Liberation Mono 9")
@@ -72,34 +69,12 @@
 ;; Disabling bold fonts
 (set-face-bold-p 'bold nil)
 
-;; Setting up Marmalade and gny and melpa
+;; Setting up Marmalade, gnu and melpa
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 (package-initialize)
-
-;; Width and Height
-;;(add-to-list 'default-frame-alist '(height . 53))
-;;(add-to-list 'default-frame-alist '(width . 99)) 
-
-
-;; On enter new line and indent
-(defun set-newline-and-indent ()
-  (local-set-key (kbd "RET") 'newline-and-indent))
-(add-hook 'c-mode 'set-newline-and-indent)
-
-
-;; Python Settings
-(setq
- python-check-command "epylint"
- python-shell-interpreter "/usr/bin/ipython"
- python-shell-interpreter-args ""
- python-shell-prompt-regexp "[0-9]+ > "
- python-shell-prompt-output-regexp "[0-9]+ < "
- python-shell-completion-setup-code "from IPython.core.completerlib import module_completion"
- python-shell-completion-module-string-code "';'.join(module_completion('''%s'''))\n"
- python-shell-completion-string-code "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
 ;; switch to the interpreter after executing code
 (setq py-shell-switch-buffers-on-execute-p t)
@@ -108,19 +83,9 @@
 ;; try to automagically figure out indentation
 (setq py-smart-indentation t)
 
-;; Automatically indent code after RET
-(electric-indent-mode +1)
-
 ;; Have those awesome matching pairs
 (electric-pair-mode t)
 
-;; Pymacs
-;; (autoload 'pymacs-apply "pymacs")
-;; (autoload 'pymacs-call "pymacs")
-;; (autoload 'pymacs-eval "pymacs" nil t)
-;; (autoload 'pymacs-exec "pymacs" nil t)
-;; (autoload 'pymacs-load "pymacs" nil t)
-;; (autoload 'pymacs-autoload "pymacs")
 
 (defun pycheck-on-save ()
   "Use a linter to check file on save for python buffers."
@@ -139,14 +104,13 @@
 
 
 ;; Cython mode
-(autoload 'cython-mode "cython-mode" "Loads mode for Cython files." t)
-(add-to-list 'auto-mode-alist '("\\.pxd\\'" . cython-mode))
-(add-to-list 'auto-mode-alist '("\\.pyx\\'" . cython-mode))
+;;(autoload 'cython-mode "cython-mode" "Loads mode for Cython files." t)
+;;(add-to-list 'auto-mode-alist '("\\.pxd\\'" . cython-mode))
+;;(add-to-list 'auto-mode-alist '("\\.pyx\\'" . cython-mode))
 
 ;; CMake mode
-(autoload 'cmake-mode "cmake-mode" "Loads mode for CMake files." t)
-(add-to-list 'auto-mode-alist '("\\CMakeLists.txt\\'" . cmake-mode))
-
+;;(autoload 'cmake-mode "cmake-mode" "Loads mode for CMake files." t)
+;;(add-to-list 'auto-mode-alist '("\\CMakeLists.txt\\'" . cmake-mode))
 
 ;; Disable the gaudy colors in shell
 (setq ansi-color-names-vector		; better contrast colors
@@ -185,10 +149,9 @@
 ;; Keybinding to start the shell
 (global-set-key (kbd "C-z") 'shell)
 
-;; Settings keybindings for Scroll line by line.
+;; Setting keybindings for scroll line by line.
 (global-set-key (kbd "C-M-g") 'scroll-up-line)
 (global-set-key (kbd "C-M-y") 'scroll-down-line)
-
 
 ;; Open terminal in the current directory
 (global-set-key (kbd "C-M-;")
@@ -216,13 +179,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"] t)
+ '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
  '(background-color "#042028")
  '(background-mode dark)
  '(cursor-color "#708183")
-;; '(custom-enabled-themes (quote (oceanic)))
  '(custom-safe-themes (quote ("805ae49b96802cef0cbf96218a80eae720d9abab838bc7a853d8d50f5ff83197" "525ce9f401456c02eedc8cfb39dad28ffccfd17b1e25d83cd8f0748d76225c14" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "d6e98500f46f207c1e14a6facc7d55c1ed463a221415768c086310514ddbeed7" "6229b49d2311e403f24383a69bd4d249b3d92eb64e38a62b735824d57444232b" "c1fb68aa00235766461c7e31ecfc759aa2dd905899ae6d95097061faeb72f9ee" "5339210234ec915d7d3fd87bfeb506bfc436ff7277a55516ab1781ec85c57224" "9c18f9e7e62aa3572044943a89fc477c1094e699502d9bb8b8c7231c556e8d63" "3b9470f0a19817fd7a6f737a745a52faf66bc648af90bd6ef1a55e62ee2e0e33" "2fc5680862f16d65dce33536d89ef96dc820c20cfc929d1cdcc2d2eabfff8abf" "40310b1ea4b1d8d6b29624dab09a814dc5ffe61da805e54f839403ee8426748a" "ed3944f5b5174942ed528e28bec8022ec3e1f4b99ede73ceec6a75e69e87a89c" default)))
  '(ecb-options-version "2.40")
+ '(elpy-default-minor-modes (quote (eldoc-mode flymake-mode yas-minor-mode auto-complete-mode)))
  '(foreground-color "#708183")
  '(ruler-mode-current-column-char 42)
  '(ruler-mode-fill-column-char 124)
@@ -251,9 +214,7 @@
 ;; Shortcut for compiling
 (global-set-key [(f9)] 'compile)
 
-;; Javascript mode
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-
+;; To graphically indicate the character limit in a line
 (require 'fill-column-indicator)
 (setq-default fci-rule-column 80)
 (setq-default fci-rule-color "#555555")
@@ -263,20 +224,10 @@
 (load "c-eldoc")
 (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
 
-
 ;; A few of my own customizations
 ;; Disable all extras of GUI.
 (add-hook 'server-visit-hook 'disable-crappy-frames)
 (add-hook 'after-make-frame-functions 'disable-crappy-frames)
-
-;; Jumping windows
-(global-set-key "\C-x\C-n" 'other-window)
-(defun other-window-backward(&optional n)
-  "Select the Nth previous window."
-  (interactive "P")
-  (other-window (prefix-numeric-value n)))
-(global-set-key "\C-x\C-p" 'other-window-backward)
-
 
 ;; Move past a given character, like vims f
 (defun move-past-next-char (x)
@@ -284,9 +235,8 @@
   (interactive "k")
   (progn
     (search-forward x)))
+
 (global-set-key "\C-\M-f" 'move-past-next-char)
-
-
 
 ;; A few key bindings that I would want to remember
 ;; C-x r <SPC> <char-for-register> - Mark a register
@@ -309,4 +259,104 @@
 
 (global-set-key [f11] 'fullscreen)
 
+;; For better html/javascript editing
+;; (require 'web-mode)
+;; (require 'web-mode)
+;; (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+
+;; (setq web-mode-markup-indent-offset 2)
+;; (setq web-mode-css-indent-offset 2)
+;; (setq web-mode-code-indent-offset 2)i
+
+;; Python virtual environment
+(push "~/Envs/emacs/bin" exec-path)
+(setenv "PATH"
+        (concat
+         "~/Envs/emacs/bin" ":"
+         (getenv "PATH")
+         ))
+
+;; For elpy
+(require 'package)
+(add-to-list 'package-archives
+            '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+(package-initialize)
+(elpy-enable)
+(elpy-use-ipython)
+
+;; Flymake cursor - To show error message in a line
+(require 'flymake-cursor)
+
+;;
+;;(add-hook 'python-mode-hook 'jedi:setup)
+;;(setq jedi:complete-on-dot t)
+;;
+
+;; Neotree
+(add-to-list 'load-path "plugins/neotree")
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+
+;; For the annoying 'Mule' warnings
+(define-coding-system-alias 'UTF-8 'utf-8)
+
+;; add buffer-local indicator for whether prog-mode-hook has run.
+(defun my-set-pmh-ran ()
+  (set (make-local-variable 'my-pmh-ran) t))
+
+(add-hook 'prog-mode-hook 'my-set-pmh-ran)
+
+(add-hook 'js2-mode-hook 'my-run-pmh-if-not-ran)
+(defun my-run-pmh-if-not-ran ()
+  (unless (bound-and-true-p my-pmh-ran)
+    (run-hooks 'prog-mode-hook)))
+
+;; js2 mode
+(add-to-list 'auto-mode-alist (cons (rx ".js" eos) 'js2-mode))
+
+(eval-after-load "js2-mode"
+  '(progn
+     (setq js2-missing-semi-one-line-override t)
+     (setq-default js2-basic-offset 4) ; 2 spaces for indentation (if you prefer 2 spaces instead of default 4 spaces for tab)
+
+     ;; add from jslint global variable declarations to js2-mode globals list
+     ;; modified from one in http://www.emacswiki.org/emacs/Js2Mode
+     (defun my-add-jslint-declarations ()
+       (when (> (buffer-size) 0)
+         (let ((btext (replace-regexp-in-string
+                       (rx ":" (* " ") "true") " "
+                       (replace-regexp-in-string
+                        (rx (+ (char "\n\t\r "))) " "
+                        ;; only scans first 1000 characters
+                        (save-restriction (widen) (buffer-substring-no-properties (point-min) (min (1+ 1000) (point-max)))) t t))))
+           (mapc (apply-partially 'add-to-list 'js2-additional-externs)
+                 (split-string
+                  (if (string-match (rx "/*" (* " ") "global" (* " ") (group (*? nonl)) (* " ") "*/") btext)
+                      (match-string-no-properties 1 btext) "")
+                  (rx (* " ") "," (* " ")) t))
+           )))
+     (add-hook 'js2-post-parse-callbacks 'my-add-jslint-declarations)))
+
+
+;; simple-httpd
+(add-to-list 'load-path "plugins/emacs-web-server")
+(require 'simple-httpd)
+(setq httpd-root "/var/www")
+
+;; skewer mode
+(add-to-list 'load-path "plugins/skewer-mode")
+(require 'skewer-mode)
+(add-hook 'js2-mode-hook 'skewer-mode)
+(add-hook 'css-mode-hook 'skewer-css-mode)
+(add-hook 'html-mode-hook 'skewer-html-mode)
+
+;; Twittering mode
+(add-to-list 'load-path "plugins/twittering-mode")
+(require 'twittering-mode)
 
