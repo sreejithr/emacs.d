@@ -20,6 +20,9 @@
 ;; Disable splash screen
 (setq inhibit-startup-message t)
 
+;; To comment region
+(global-set-key (kbd "C-x /") 'comment-or-uncomment-region)
+
 ;; I hate tabs!
 (setq-default indent-tabs-mode nil)
 (add-hook 'after-change-major-mode-hook 
@@ -30,7 +33,7 @@
 
 ;; Set C style to linux
 (setq c-default-style "linux"
-          c-basic-offset 8)
+          c-basic-offset 4)
 
 ;; Set the cursor to a bar
 (setq default-cursor-type 'bar)
@@ -38,7 +41,7 @@
 ;; Disable the menubar for terminal
 (menu-bar-mode -1)
 
-(load-theme 'oceanic t)
+(load-theme 'solarized-dark t)
 
 ;; GUI specific settings
 ;; Load the customizations after an emacsclient startsup.
@@ -102,22 +105,25 @@
 ;; (setq ropemacs-enable-shortcuts nil)
 ;; (setq ropemacs-local-prefix "C-c C-p")
 
-
 ;; Cython mode
 ;;(autoload 'cython-mode "cython-mode" "Loads mode for Cython files." t)
 ;;(add-to-list 'auto-mode-alist '("\\.pxd\\'" . cython-mode))
 ;;(add-to-list 'auto-mode-alist '("\\.pyx\\'" . cython-mode))
 
 ;; CMake mode
-;;(autoload 'cmake-mode "cmake-mode" "Loads mode for CMake files." t)
-;;(add-to-list 'auto-mode-alist '("\\CMakeLists.txt\\'" . cmake-mode))
+(setq auto-mode-alist
+	  (append
+	   '(("CMakeLists\\.txt\\'" . cmake-mode))
+	   '(("\\.cmake\\'" . cmake-mode))
+	   auto-mode-alist))
+
+(autoload 'cmake-mode "/usr/local/share/cmake/editors/emacs/cmake-mode.el" t)
 
 ;; Disable the gaudy colors in shell
 (setq ansi-color-names-vector		; better contrast colors
       ["black" "red4" "chartreuse4" "goldenrod3"
        "DodgerBlue4" "magenta4" "cyan4" "white"])
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
 
 ;; Tramp settings
 (setq tramp-default-method "ssh")
@@ -127,8 +133,6 @@
               tramp-file-name-regexp))
 
 (setq recentf-auto-cleanup 'never) 
-
-(require 'git)
 
 ;; IDO mode.
 (require 'ido)
@@ -146,31 +150,19 @@
 ;; Set such that emacs does not use the ugly word-wrapping
 (global-visual-line-mode 1)
 
-;; Keybinding to start the shell
-(global-set-key (kbd "C-z") 'shell)
-
 ;; Setting keybindings for scroll line by line.
 (global-set-key (kbd "C-M-g") 'scroll-up-line)
 (global-set-key (kbd "C-M-y") 'scroll-down-line)
 
-;; Open terminal in the current directory
-(global-set-key (kbd "C-M-;")
-                '(lambda ()
-                   (interactive)
-                   (shell-command
-                    (format "open -a /Applications/iTerm.app --args %s"
-                            default-directory))))
-
-
-;; CTags settings
-(setq path-to-ctags "/usr/bin/etags")
-(defun create-tags (dir-name)
-    "Create tags file."
-    (interactive "DDirectory: ")
-    (let ((full-dir-name (directory-file-name dir-name)))
-      (shell-command
-       (format "find %s -iname \"*.[c,h]\" | xargs %s -f %s/TAGS -R"
-               full-dir-name path-to-ctags full-dir-name))))
+;; ;; CTags settings
+;; (setq path-to-ctags "/usr/bin/etags")
+;; (defun create-tags (dir-name)
+;;     "Create tags file."
+;;     (interactive "DDirectory: ")
+;;     (let ((full-dir-name (directory-file-name dir-name)))
+;;       (shell-command
+;;        (format "find %s -iname \"*.[c,h]\" | xargs %s -f %s/TAGS -R"
+;;                full-dir-name path-to-ctags full-dir-name))))
 
 ;; cscope for emacs.
 ;(require 'ascope)
@@ -220,9 +212,9 @@
 (setq-default fci-rule-color "#555555")
 
 ;; Eldoc mode for C
-(setq c-eldoc-includes "`pkg-config glib-2.0 tokyocabinet --cflags` -I./ -I../ ")
-(load "c-eldoc")
-(add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
+;; (setq c-eldoc-includes "`pkg-config glib-2.0 tokyocabinet --cflags` -I./ -I../ ")
+;; (load "c-eldoc")
+;; (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
 
 ;; A few of my own customizations
 ;; Disable all extras of GUI.
@@ -235,7 +227,6 @@
   (interactive "k")
   (progn
     (search-forward x)))
-
 (global-set-key "\C-\M-f" 'move-past-next-char)
 
 ;; A few key bindings that I would want to remember
@@ -245,34 +236,6 @@
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
-
-;; Full screen in Linux
-(defun fullscreen ()
-  (interactive)
-  (set-frame-parameter nil 'fullscreen
-                       (if (frame-parameter nil 'fullscreen) nil 'fullboth))
-  (progn
-    (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))  ;; no toolbar
-    (menu-bar-mode -1) ;;no menubar
-    (scroll-bar-mode -1) ;; no scroll bar
-    ))
-
-(global-set-key [f11] 'fullscreen)
-
-;; For better html/javascript editing
-;; (require 'web-mode)
-;; (require 'web-mode)
-;; (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-
-;; (setq web-mode-markup-indent-offset 2)
-;; (setq web-mode-css-indent-offset 2)
-;; (setq web-mode-code-indent-offset 2)i
 
 ;; Python virtual environment
 (push "~/Envs/emacs/bin" exec-path)
@@ -293,16 +256,6 @@
 ;; Flymake cursor - To show error message in a line
 (require 'flymake-cursor)
 
-;;
-;;(add-hook 'python-mode-hook 'jedi:setup)
-;;(setq jedi:complete-on-dot t)
-;;
-
-;; Neotree
-(add-to-list 'load-path "plugins/neotree")
-(require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
-
 ;; For the annoying 'Mule' warnings
 (define-coding-system-alias 'UTF-8 'utf-8)
 
@@ -317,46 +270,57 @@
   (unless (bound-and-true-p my-pmh-ran)
     (run-hooks 'prog-mode-hook)))
 
-;; js2 mode
-(add-to-list 'auto-mode-alist (cons (rx ".js" eos) 'js2-mode))
-
-(eval-after-load "js2-mode"
-  '(progn
-     (setq js2-missing-semi-one-line-override t)
-     (setq-default js2-basic-offset 4) ; 2 spaces for indentation (if you prefer 2 spaces instead of default 4 spaces for tab)
-
-     ;; add from jslint global variable declarations to js2-mode globals list
-     ;; modified from one in http://www.emacswiki.org/emacs/Js2Mode
-     (defun my-add-jslint-declarations ()
-       (when (> (buffer-size) 0)
-         (let ((btext (replace-regexp-in-string
-                       (rx ":" (* " ") "true") " "
-                       (replace-regexp-in-string
-                        (rx (+ (char "\n\t\r "))) " "
-                        ;; only scans first 1000 characters
-                        (save-restriction (widen) (buffer-substring-no-properties (point-min) (min (1+ 1000) (point-max)))) t t))))
-           (mapc (apply-partially 'add-to-list 'js2-additional-externs)
-                 (split-string
-                  (if (string-match (rx "/*" (* " ") "global" (* " ") (group (*? nonl)) (* " ") "*/") btext)
-                      (match-string-no-properties 1 btext) "")
-                  (rx (* " ") "," (* " ")) t))
-           )))
-     (add-hook 'js2-post-parse-callbacks 'my-add-jslint-declarations)))
-
-
 ;; simple-httpd
 (add-to-list 'load-path "plugins/emacs-web-server")
 (require 'simple-httpd)
 (setq httpd-root "/var/www")
 
 ;; skewer mode
-(add-to-list 'load-path "plugins/skewer-mode")
-(require 'skewer-mode)
-(add-hook 'js2-mode-hook 'skewer-mode)
-(add-hook 'css-mode-hook 'skewer-css-mode)
-(add-hook 'html-mode-hook 'skewer-html-mode)
+;; (add-to-list 'load-path "plugins/skewer-mode")
+;; (require 'skewer-mode)
+;; (add-hook 'js2-mode-hook 'skewer-mode)
+;; (add-hook 'css-mode-hook 'skewer-css-mode)
+;; (add-hook 'html-mode-hook 'skewer-html-mode)
 
-;; Twittering mode
-(add-to-list 'load-path "plugins/twittering-mode")
-(require 'twittering-mode)
+;; Go syntax highlighting
+(add-to-list 'load-path "plugins/go-mode")
+(require 'go-mode)
+(add-hook 'before-save-hook 'gofmt-before-save)
 
+;; To beautify JSON
+(defun json-format ()
+  (interactive)
+  (save-excursion
+    (shell-command-on-region (point-min) (point-max) "python -m json.tool" (buffer-name) t)
+    )
+  )
+
+;; Nyan mode
+(add-to-list 'load-path "plugins/nyan-mode")
+(load "nyan-mode.el")
+(nyan-mode 1)
+(nyan-start-animation)
+
+;; Git Gutter mode
+(add-to-list 'load-path "plugins/emacs-git-gutter")
+(load "git-gutter.el")
+(require 'git-gutter)
+
+;; If you enable global minor mode
+(global-git-gutter-mode t)
+
+;; If you would like to use git-gutter.el and linum-mode
+(git-gutter:linum-setup)
+
+(global-set-key (kbd "C-x C-g") 'git-gutter:toggle)
+(global-set-key (kbd "C-x v =") 'git-gutter:popup-hunk)
+
+;; Jump to next/previous hunk
+(global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
+(global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
+
+;; Stage current hunk
+(global-set-key (kbd "C-x v s") 'git-gutter:stage-hunk)
+
+;; Revert current hunk
+(global-set-key (kbd "C-x v r") 'git-gutter:revert-hunk)
