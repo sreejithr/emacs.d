@@ -83,8 +83,10 @@
 (setq py-shell-switch-buffers-on-execute-p t)
 (setq py-switch-buffers-on-execute-p t)
 
+
 ;; try to automagically figure out indentation
 (setq py-smart-indentation t)
+
 
 ;; Have those awesome matching pairs
 (electric-pair-mode t)
@@ -99,11 +101,6 @@
 
 ;;(add-hook 'after-save-hook 'pycheck-on-save)
 
-;; Python Rope
-;; (require 'pymacs)
-;; (pymacs-load "ropemacs" "rope-")
-;; (setq ropemacs-enable-shortcuts nil)
-;; (setq ropemacs-local-prefix "C-c C-p")
 
 ;; Cython mode
 ;;(autoload 'cython-mode "cython-mode" "Loads mode for Cython files." t)
@@ -238,10 +235,10 @@
 (put 'narrow-to-page 'disabled nil)
 
 ;; Python virtual environment
-(push "~/Envs/emacs/bin" exec-path)
+(push "~/.emacs.d/pyenv/emacs/bin" exec-path)
 (setenv "PATH"
         (concat
-         "~/Envs/emacs/bin" ":"
+         "~/.emacs.d/pyenv/emacs" ":"
          (getenv "PATH")
          ))
 
@@ -275,6 +272,7 @@
 (require 'simple-httpd)
 (setq httpd-root "/var/www")
 
+
 ;; skewer mode
 ;; (add-to-list 'load-path "plugins/skewer-mode")
 ;; (require 'skewer-mode)
@@ -282,10 +280,12 @@
 ;; (add-hook 'css-mode-hook 'skewer-css-mode)
 ;; (add-hook 'html-mode-hook 'skewer-html-mode)
 
+
 ;; Go syntax highlighting
 (add-to-list 'load-path "plugins/go-mode")
 (require 'go-mode)
 (add-hook 'before-save-hook 'gofmt-before-save)
+
 
 ;; To beautify JSON
 (defun json-format ()
@@ -295,11 +295,13 @@
     )
   )
 
+
 ;; Nyan mode
 (add-to-list 'load-path "plugins/nyan-mode")
 (load "nyan-mode.el")
 (nyan-mode 1)
 (nyan-start-animation)
+
 
 ;; Git Gutter mode
 (add-to-list 'load-path "plugins/emacs-git-gutter")
@@ -316,7 +318,7 @@
 (global-set-key (kbd "C-x v =") 'git-gutter:popup-hunk)
 
 ;; Jump to next/previous hunk
-(global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
+;;(global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
 (global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
 
 ;; Stage current hunk
@@ -324,3 +326,32 @@
 
 ;; Revert current hunk
 (global-set-key (kbd "C-x v r") 'git-gutter:revert-hunk)
+
+
+; pymacs
+(add-to-list 'load-path "~/.emacs.d/plugins/Pymacs")
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+(autoload 'pymacs-autoload "pymacs")
+
+
+; ropemacs
+(require 'pymacs)
+(pymacs-load "ropemacs" "rope-")
+
+
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell (replace-regexp-in-string
+                          "[ \t\n]*$"
+                          ""
+                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(when (and window-system (eq system-type 'darwin))
+  ;; When started from Emacs.app or similar, ensure $PATH
+  ;; is the same the user would see in Terminal.app
+  (set-exec-path-from-shell-PATH))
