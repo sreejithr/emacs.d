@@ -1,6 +1,3 @@
-;; For backword word delete
-(global-set-key (kbd "C-M-h") 'backward-kill-word)
-
 ;; Setting the default load-directory
 (let ((default-directory "~/.emacs.d/"))
       (normal-top-level-add-subdirs-to-load-path))
@@ -33,7 +30,7 @@
 
 ;; Set C style to linux
 (setq c-default-style "linux"
-          c-basic-offset 4)
+      c-basic-offset 4)
 
 ;; Set the cursor to a bar
 (setq default-cursor-type 'bar)
@@ -69,6 +66,7 @@
     (tool-bar-mode -1)))
 
 (disable-crappy-frames)
+
 ;; Disabling bold fonts
 (set-face-bold-p 'bold nil)
 
@@ -83,14 +81,11 @@
 (setq py-shell-switch-buffers-on-execute-p t)
 (setq py-switch-buffers-on-execute-p t)
 
-
 ;; try to automagically figure out indentation
 (setq py-smart-indentation t)
 
-
 ;; Have those awesome matching pairs
 (electric-pair-mode t)
-
 
 (defun pycheck-on-save ()
   "Use a linter to check file on save for python buffers."
@@ -100,12 +95,6 @@
     "Not a python buffer"))
 
 ;;(add-hook 'after-save-hook 'pycheck-on-save)
-
-
-;; Cython mode
-;;(autoload 'cython-mode "cython-mode" "Loads mode for Cython files." t)
-;;(add-to-list 'auto-mode-alist '("\\.pxd\\'" . cython-mode))
-;;(add-to-list 'auto-mode-alist '("\\.pyx\\'" . cython-mode))
 
 ;; CMake mode
 (setq auto-mode-alist
@@ -129,7 +118,7 @@
               vc-ignore-dir-regexp
               tramp-file-name-regexp))
 
-(setq recentf-auto-cleanup 'never) 
+(setq recentf-auto-cleanup 'never)
 
 ;; IDO mode.
 (require 'ido)
@@ -148,8 +137,8 @@
 (global-visual-line-mode 1)
 
 ;; Setting keybindings for scroll line by line.
-(global-set-key (kbd "C-M-g") 'scroll-up-line)
-(global-set-key (kbd "C-M-y") 'scroll-down-line)
+(global-set-key (kbd "C-M-j") 'scroll-up-line)
+(global-set-key (kbd "C-M-k") 'scroll-down-line)
 
 ;; ;; CTags settings
 ;; (setq path-to-ctags "/usr/bin/etags")
@@ -163,6 +152,7 @@
 
 ;; cscope for emacs.
 ;(require 'ascope)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -196,9 +186,6 @@
  '(ruler-mode-current-column ((t (:inherit ruler-mode-default :foreground "Red" :weight bold))) t)
  '(ruler-mode-default ((t (:inherit default :foreground "grey64"))) t)
  '(speedbar-tag-face ((t (:foreground "gray80"))) t))
-
-;; My Shortcuts
-(global-set-key (kbd "C-S-f") 'speedbar-get-focus)
 
 ;; Shortcut for compiling
 (global-set-key [(f9)] 'compile)
@@ -256,7 +243,7 @@
 ;; For the annoying 'Mule' warnings
 (define-coding-system-alias 'UTF-8 'utf-8)
 
-;; add buffer-local indicator for whether prog-mode-hook has run.
+;; Add buffer-local indicator for whether prog-mode-hook has run.
 (defun my-set-pmh-ran ()
   (set (make-local-variable 'my-pmh-ran) t))
 
@@ -272,7 +259,6 @@
 (require 'simple-httpd)
 (setq httpd-root "/var/www")
 
-
 ;; skewer mode
 ;; (add-to-list 'load-path "plugins/skewer-mode")
 ;; (require 'skewer-mode)
@@ -280,12 +266,10 @@
 ;; (add-hook 'css-mode-hook 'skewer-css-mode)
 ;; (add-hook 'html-mode-hook 'skewer-html-mode)
 
-
 ;; Go syntax highlighting
 (add-to-list 'load-path "plugins/go-mode")
 (require 'go-mode)
 (add-hook 'before-save-hook 'gofmt-before-save)
-
 
 ;; To beautify JSON
 (defun json-format ()
@@ -295,13 +279,11 @@
     )
   )
 
-
 ;; Nyan mode
 (add-to-list 'load-path "plugins/nyan-mode")
 (load "nyan-mode.el")
 (nyan-mode 1)
 (nyan-start-animation)
-
 
 ;; Git Gutter mode
 (add-to-list 'load-path "plugins/emacs-git-gutter")
@@ -322,11 +304,10 @@
 (global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
 
 ;; Stage current hunk
-(global-set-key (kbd "C-x v s") 'git-gutter:stage-hunk)
+(global-set-key (kbd "C-x g s") 'git-gutter:stage-hunk)
 
 ;; Revert current hunk
 (global-set-key (kbd "C-x v r") 'git-gutter:revert-hunk)
-
 
 ; pymacs
 (add-to-list 'load-path "~/.emacs.d/plugins/Pymacs")
@@ -337,11 +318,9 @@
 (autoload 'pymacs-load "pymacs" nil t)
 (autoload 'pymacs-autoload "pymacs")
 
-
 ; ropemacs
 (require 'pymacs)
 (pymacs-load "ropemacs" "rope-")
-
 
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell (replace-regexp-in-string
