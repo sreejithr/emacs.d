@@ -121,9 +121,12 @@
 (setq recentf-auto-cleanup 'never)
 
 ;; IDO mode.
+(add-to-list 'load-path "~/.emacs.d/plugins/ido-vertical-mode.el")
 (require 'ido)
+(require 'ido-vertical-mode)
 (ido-mode t)
 (ido-vertical-mode 1)
+(setq ido-vertical-define-keys 'C-n-and-C-p-only)
 
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -191,6 +194,7 @@
 (global-set-key [(f9)] 'compile)
 
 ;; To graphically indicate the character limit in a line
+(add-to-list 'load-path "plugins/fill-column-indicator.el")
 (require 'fill-column-indicator)
 (setq-default fci-rule-column 80)
 (setq-default fci-rule-color "#555555")
@@ -221,18 +225,27 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 
+;; Zsh
+(let ((path (shell-command-to-string ". ~/.zshrc; echo -n $PATH")))
+  (setenv "WORKON_HOME" (shell-command-to-string "source ~/.zshrc; echo -n $WORKON_HOME"))
+  (setenv "PATH" path)
+  (setq exec-path 
+        (append
+         (split-string-and-unquote path ":")
+         exec-path)))
+
 ;; Python virtual environment
-(push "~/.emacs.d/pyenv/emacs/bin" exec-path)
-(setenv "PATH"
-        (concat
-         "~/.emacs.d/pyenv/emacs" ":"
-         (getenv "PATH")
-         ))
+(push (concat (getenv "WORKON_HOME") "emacs/bin") exec-path)
+;; (push "~/.Envs/emacs/bin" exec-path)
+;; (setenv "PATH"
+;;         (concat
+;;          "~/.emacs.d/pyenv/emacs" ":"
+;;          (getenv "PATH")
+;;          ))
 
 ;; For elpy
-(require 'package)
-(add-to-list 'package-archives
-            '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+(add-to-list 'load-path "plugins/elpy")
+(require 'elpy)
 (package-initialize)
 (elpy-enable)
 (elpy-use-ipython)
@@ -253,11 +266,6 @@
 (defun my-run-pmh-if-not-ran ()
   (unless (bound-and-true-p my-pmh-ran)
     (run-hooks 'prog-mode-hook)))
-
-;; simple-httpd
-(add-to-list 'load-path "plugins/emacs-web-server")
-(require 'simple-httpd)
-(setq httpd-root "/var/www")
 
 ;; skewer mode
 ;; (add-to-list 'load-path "plugins/skewer-mode")
@@ -286,7 +294,7 @@
 (nyan-start-animation)
 
 ;; Git Gutter mode
-(add-to-list 'load-path "plugins/emacs-git-gutter")
+(add-to-list 'load-path "plugins/git-gutter")
 (load "git-gutter.el")
 (require 'git-gutter)
 
@@ -334,3 +342,12 @@
   ;; When started from Emacs.app or similar, ensure $PATH
   ;; is the same the user would see in Terminal.app
   (set-exec-path-from-shell-PATH))
+
+;; Company; For completions
+(add-to-list 'load-path "~/.emacs.d/plugins/company")
+(add-hook 'after-init-hook 'global-company-mode)
+
+;; yasnippet
+(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
